@@ -104,13 +104,17 @@ export default async function (
       prefix: importer.rootDir,
       resolutionStrategy: opts.resolutionStrategy || 'fast',
     }
+    // This may be optimize.
+    // We only need to proceed resolving every dependency
+    // if the newly added dependency has peer dependencies.
+    const proceed = importer.wantedDependencies.some((wantedDep) => wantedDep['isNew'])
     const resolveOpts = {
       alwaysTryWorkspacePackages: (opts.linkWorkspacePackagesDepth ?? -1) >= 0,
       currentDepth: 0,
-      parentDependsOnPeers: true,
+      parentDependsOnPeers: false,
       parentNodeId: `>${importer.id}>`,
       preferredVersions: importer.preferredVersions || {},
-      proceed: true,
+      proceed,
       resolvedDependencies: {
         ...projectSnapshot.dependencies,
         ...projectSnapshot.devDependencies,
