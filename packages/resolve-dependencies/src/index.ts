@@ -104,7 +104,7 @@ export default async function (
       prefix: importer.rootDir,
       resolutionStrategy: opts.resolutionStrategy || 'fast',
     }
-    // This may be optimize.
+    // This may be optimized.
     // We only need to proceed resolving every dependency
     // if the newly added dependency has peer dependencies.
     const proceed = importer.wantedDependencies.some((wantedDep) => wantedDep['isNew'])
