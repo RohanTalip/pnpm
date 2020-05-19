@@ -127,7 +127,7 @@ function pkgAllDeps (
     let installable!: boolean
     if (!parentIsInstallable) {
       installable = false
-      if (!ctx.pickedPackages[relDepPath]) {
+      if (!ctx.pickedPackages[relDepPath] && pkgSnapshot.optional === true) {
         opts.skipped.add(relDepPath)
       }
     } else {
@@ -146,7 +146,7 @@ function pkgAllDeps (
         pnpmVersion: opts.currentEngine.pnpmVersion,
       }) !== false
       if (!installable) {
-        if (!ctx.pickedPackages[relDepPath]) {
+        if (!ctx.pickedPackages[relDepPath] && pkgSnapshot.optional === true) {
           opts.skipped.add(relDepPath)
         }
       } else {
@@ -159,7 +159,10 @@ function pkgAllDeps (
         ...pkgSnapshot.dependencies,
         ...(opts.include.optionalDependencies && pkgSnapshot.optionalDependencies || {}),
       })
-      .map(([pkgName, ref]) => dp.refToRelative(ref, pkgName))
+      .map(([pkgName, ref]) => {
+        if (pkgSnapshot.peerDependencies?.[pkgName]) return null
+        return dp.refToRelative(ref, pkgName)
+      })
       .filter((nodeId) => nodeId !== null) as string[]
 
     pkgAllDeps(ctx, nextRelDepPaths, installable, opts)

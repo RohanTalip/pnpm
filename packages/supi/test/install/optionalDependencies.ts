@@ -276,7 +276,11 @@ test('only that package is skipped which is an optional dependency only and not 
   prepareEmpty(t)
   const reporter = sinon.spy()
 
-  const manifest = await addDependenciesToPackage({}, ['peer-c@1.0.1', 'has-optional-dep-with-peer', 'not-compatible-with-any-os-and-has-peer'], await testDefaults({ reporter }))
+  const manifest = await addDependenciesToPackage({}, [
+    'peer-c@1.0.1',
+    'has-optional-dep-with-peer',
+    'not-compatible-with-any-os-and-has-peer',
+  ], await testDefaults({ reporter }))
 
   {
     const modulesInfo = await readYamlFile<{ skipped: string[] }>(path.join('node_modules', '.modules.yaml'))
