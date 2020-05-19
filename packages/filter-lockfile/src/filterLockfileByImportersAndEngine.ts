@@ -151,9 +151,9 @@ function pkgAllDeps (
         }
       } else {
         opts.skipped.delete(relDepPath)
-        ctx.pickedPackages[relDepPath] = pkgSnapshot
       }
     }
+    ctx.pickedPackages[relDepPath] = pkgSnapshot
     const nextRelDepPaths = R.toPairs(
       {
         ...pkgSnapshot.dependencies,
