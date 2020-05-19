@@ -586,7 +586,7 @@ async function resolveDependency (
 
   if (
     !options.parentDependsOnPeer && !pkgResponse.body.updated &&
-    options.currentDepth >= options.updateDepth &&
+    options.currentDepth === Math.max(0, options.updateDepth) &&
     depIsLinked && !ctx.force
   ) {
     return null

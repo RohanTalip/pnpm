@@ -42,7 +42,7 @@ test("don't override existing spec in package.json on named installation", async
   t.deepEqual(manifest.dependencies, {
     'is-negative': '^1.0.1',
     'is-positive': '^2.0.0',
-    'sec': 'sindresorhus/sec',
+    'sec': 'github:sindresorhus/sec',
   })
 })
 
