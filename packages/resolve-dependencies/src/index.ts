@@ -111,7 +111,7 @@ export default async function (
     const resolveOpts = {
       alwaysTryWorkspacePackages: (opts.linkWorkspacePackagesDepth ?? -1) >= 0,
       currentDepth: 0,
-      parentDependsOnPeers: false,
+      parentDependsOnPeers: proceed,
       parentNodeId: `>${importer.id}>`,
       preferredVersions: importer.preferredVersions || {},
       proceed,

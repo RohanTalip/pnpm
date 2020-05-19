@@ -587,7 +587,7 @@ async function resolveDependency (
   if (
     !options.parentDependsOnPeer && !pkgResponse.body.updated &&
     options.currentDepth >= options.updateDepth &&
-    depIsLinked && !ctx.force && !ctx.updateLockfile
+    depIsLinked && !ctx.force
   ) {
     return null
   }

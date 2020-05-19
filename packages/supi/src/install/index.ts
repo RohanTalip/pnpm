@@ -614,6 +614,14 @@ async function installInContext (
     workspacePackages: opts.workspacePackages,
   })
   const projectsToResolve = await Promise.all(projects.map((project) => _toResolveImporter(project)))
+  const updateLockfile = ctx.wantedLockfile.lockfileVersion !== LOCKFILE_VERSION || !opts.currentLockfileIsUpToDate
+  if (updateLockfile) {
+    for (const project of projectsToResolve) {
+      for (const wantedDep of project.wantedDependencies) {
+        wantedDep.updateDepth = Infinity
+      }
+    }
+  }
   const {
     dependenciesTree,
     outdatedDependencies,
