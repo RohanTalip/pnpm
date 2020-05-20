@@ -873,19 +873,14 @@ async function toResolveImporter (
       updateDepth: opts.defaultUpdateDepth,
     }))
   } else {
-    let existingDepsUpdateDepth = -1
-    let selectedDepsUpdateDepth = opts.defaultUpdateDepth
-    if (project.removePackages?.length) {
-      existingDepsUpdateDepth = 1
-      selectedDepsUpdateDepth = Math.max(opts.defaultUpdateDepth, 1)
-    }
     wantedDependencies = [
-      ...project.wantedDependencies.map((dep) => ({ ...dep, updateDepth: selectedDepsUpdateDepth })),
-      ...existingDeps.map((dep) => ({ ...dep, updateDepth: existingDepsUpdateDepth })),
+      ...project.wantedDependencies.map((dep) => ({ ...dep, updateDepth: opts.defaultUpdateDepth })),
+      ...existingDeps.map((dep) => ({ ...dep, updateDepth: -1 })),
     ]
   }
   return {
     ...project,
+    hasRemovedDependencies: Boolean(project.removePackages?.length),
     preferredVersions: opts.preferredVersions ?? (project.manifest && getPreferredVersionsFromPackage(project.manifest)) ?? {},
     wantedDependencies: wantedDependencies
       .filter(({ alias, updateDepth }) => updateDepth >= 0 || !linkedAliases.has(alias)),
